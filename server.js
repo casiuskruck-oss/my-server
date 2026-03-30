@@ -4,8 +4,11 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
-const LOG_FILE = path.join(__dirname, 'logs.txt');
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
+});
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
