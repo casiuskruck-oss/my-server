@@ -8,10 +8,11 @@ const PORT = 3000;
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static('public'));
 
 // Serve login page
 app.get('/', (req, res) => {
-  res.send("Server is running 🚀");
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // POST route for login submission - LOGS ALWAYS
